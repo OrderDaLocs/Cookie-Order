@@ -235,6 +235,21 @@
   .social-links svg { width: 22px; height: 22px; fill: currentColor; flex: none; }
   .address { margin-top: 16px; font-size: .95rem; opacity: .9; }
 
+  .gcash-btn { display: none; margin-top: 10px; width: 100%; border: 2px solid var(--blue); background: #fff; color: var(--blue); font: inherit; font-weight: 700; padding: 10px; border-radius: 12px; cursor: pointer; }
+  .gcash-btn.show { display: block; }
+  .gcash-btn:hover { background: var(--sky); }
+
+  .modal { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(10,26,140,.7); }
+  .modal.open { display: flex; }
+  .modal-card { background: var(--cream); color: var(--ink); border-radius: 26px; width: min(400px, 100%); max-height: 100%; overflow-y: auto; padding: 22px 22px 20px; text-align: center; position: relative; }
+  .modal-card h3 { color: var(--blue-deep); font-size: 1.5rem; }
+  .modal-card .amount { font-family: "Fredoka", sans-serif; font-size: 1.2rem; color: var(--blue); margin: 4px 0 12px; }
+  .modal-card img { width: 100%; max-width: 320px; height: auto; border-radius: 16px; border: 2px solid var(--mist); display: block; margin: 0 auto 12px; }
+  .modal-card p { font-size: .9rem; line-height: 1.4; }
+  .modal-card a.dl { display: inline-block; margin-top: 10px; color: var(--blue); font-weight: 700; }
+  .modal-close { margin-top: 14px; width: 100%; border: 0; cursor: pointer; background: var(--blue-deep); color: #fff; font-family: "Fredoka", sans-serif; font-size: 1.1rem; font-weight: 600; padding: 12px; border-radius: 999px; }
+  .modal-close:hover { background: var(--blue); }
+
   @media (max-width: 760px) {
     .head-grid { grid-template-columns: 1fr; gap: 0; }
     .menu-panel { margin: 0 0 0 -4vw; padding: 14px 24px 8px; padding-left: calc(4vw + 24px); border-radius: 0 var(--radius) var(--radius) 0; width: 70%; }
@@ -251,10 +266,10 @@
   <div class="wrap head-grid">
     <div class="menu-panel"><h1>ME<span>N</span>U</h1></div>
     <div class="brand">
-      <img src="dalocs-logo.png" alt="Dalocs logo">
+      <img src="Logo.png" alt="Dalocs logo">
       <p>ONE BITE. PURE DELIGHT.</p>
     </div>
-    <div class="mascot-panel"><img src="mascot.png" alt="Dalocs cookie mascot"></div>
+    <div class="mascot-panel"><img src="Mascot.png" alt="Dalocs cookie mascot"></div>
   </div>
 </header>
 
@@ -377,6 +392,7 @@
           </label>
         </div>
         <p class="hint" id="payHint">💵 Cash and GCash are both accepted for <strong>pick-up</strong>.</p>
+        <button type="button" class="gcash-btn" id="gcashBtn">📲 Show GCash QR</button>
       </div>
 
       <!-- Tuesday dropdown + time (aligned) -->
@@ -461,6 +477,18 @@
   </section>
 </main>
 
+<div class="modal" id="gcashModal" role="dialog" aria-modal="true" aria-labelledby="gcashTitle">
+  <div class="modal-card">
+    <h3 id="gcashTitle">Pay with GCash</h3>
+    <p class="amount">Amount to pay: <strong id="gcashAmount">₱0</strong></p>
+    <img src="GcashQR.jpeg" alt="Dalocs GCash QR code">
+    <p>Scan with GCash or any InstaPay-enabled app. Transfer fees may apply.</p>
+    <p><em>On your phone? Save the QR, then use “Upload QR” in GCash.</em></p>
+    <a class="dl" href="GcashQR.png" download="Dalocs-GCash-QR.png">⬇ Save QR image</a>
+    <button type="button" class="modal-close" id="gcashClose">Done</button>
+  </div>
+</div>
+
 <script>
 (function () {
   var DISCOUNT_PER_4 = 10;
@@ -521,6 +549,7 @@
       payCash.disabled = false;
       payHint.innerHTML = '💵 Cash and GCash are both accepted for <strong>pick-up</strong>.';
       populateDates(false); populateTimes(false);
+      syncGcashBtn();
     } else {
       lblDate.textContent = 'Delivery Date';
       lblAddress.textContent = 'Delivery Address';
@@ -531,8 +560,26 @@
       payCashWrap.classList.add('hidden');
       payHint.innerHTML = '📲 <strong>Delivery via Maxim</strong> is <strong>GCash only</strong>.';
       populateDates(true); populateTimes(true);
+      syncGcashBtn();
     }
   }
+  var gcashBtn = document.getElementById('gcashBtn');
+  var modal = document.getElementById('gcashModal');
+  function syncGcashBtn() { gcashBtn.classList.toggle('show', payGcash.checked); }
+  function openGcash() {
+    document.getElementById('gcashAmount').textContent = peso(state().total);
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('gcashClose').focus();
+  }
+  function closeGcash() { modal.classList.remove('open'); document.body.style.overflow = ''; }
+  payGcash.addEventListener('change', function () { syncGcashBtn(); if (payGcash.checked) openGcash(); });
+  payCash.addEventListener('change', syncGcashBtn);
+  gcashBtn.addEventListener('click', openGcash);
+  document.getElementById('gcashClose').addEventListener('click', closeGcash);
+  modal.addEventListener('click', function (e) { if (e.target === modal) closeGcash(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeGcash(); });
+
   optPickup.addEventListener('change', updateFulfillmentUI);
   optDelivery.addEventListener('change', updateFulfillmentUI);
 
