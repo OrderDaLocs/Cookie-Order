@@ -1,610 +1,517 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dalocs - Online Cookie Order Form</title>
-  
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Google Fonts: Fredoka & Poppins -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- FontAwesome for Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dalocs – One bite. Pure delight.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #1253ad;
+    --blue-deep: #0a1a8c;
+    --sky: #86d4ff;
+    --mist: #bccde6;
+    --cream: #fffdf0;
+    --ink: #1f4a5a;
+    --error: #b3261e;
+    --radius: 22px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Nunito", system-ui, sans-serif;
+    background: var(--blue);
+    color: var(--cream);
+    line-height: 1.5;
+  }
+  h1, h2, h3, .display { font-family: "Fredoka", "Nunito", sans-serif; }
+  :focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; }
+  .wrap { width: min(1080px, 92%); margin-inline: auto; }
 
-  <!-- External Stylesheet -->
-  <link rel="stylesheet" href="styles.css">
+  /* ---------- Header ---------- */
+  header { padding: 28px 0 8px; }
+  .head-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: end;
+    gap: 16px;
+  }
+  .menu-panel {
+    background: var(--mist);
+    border-radius: 0 0 var(--radius) 0;
+    padding: 18px 24px 6px;
+    margin-left: calc((100vw - min(1080px, 92vw)) / -2);
+    padding-left: calc((100vw - min(1080px, 92vw)) / 2 + 24px);
+    border-top-left-radius: 0;
+    align-self: stretch;
+    display: flex; align-items: flex-end;
+  }
+  .menu-panel h1 {
+    font-size: clamp(3.2rem, 9vw, 6.5rem);
+    line-height: .85;
+    letter-spacing: -.02em;
+    color: #fff;
+    font-weight: 700;
+  }
+  .menu-panel h1 span { color: var(--blue-deep); }
+  .brand { text-align: center; }
+  .brand .logo {
+    display: inline-block;
+    background: var(--cream);
+    color: var(--blue-deep);
+    font-family: "Fredoka", sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3rem);
+    letter-spacing: .04em;
+    padding: 18px 40px;
+    border-radius: 60% 40% 55% 45% / 55% 50% 50% 45%;
+  }
+  .brand p { margin-top: 10px; font-size: .85rem; letter-spacing: .06em; }
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              blue: '#0a4abf',
-              darkBlue: '#053477',
-              accentBlue: '#1a64f0',
-              lightSky: '#a2d2ff',
-              yellow: '#FFD028',
-              white: '#FFFFFF',
-            }
-          },
-          fontFamily: {
-            fredoka: ['Fredoka', 'sans-serif'],
-            poppins: ['Poppins', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
+  /* ---------- Promo + info ---------- */
+  .promo {
+    margin: 28px 0 8px;
+    background: var(--mist);
+    color: var(--blue-deep);
+    border-radius: var(--radius);
+    padding: 22px 28px;
+    text-align: center;
+  }
+  .promo h2 { font-size: clamp(1.4rem, 3.4vw, 2rem); }
+  .promo p { color: var(--blue); font-size: 1.1rem; }
+
+  /* ---------- Menu sections ---------- */
+  .category {
+    display: inline-block;
+    margin: 40px 0 22px;
+    background: var(--sky);
+    color: #fff;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 700;
+    padding: 6px 48px 6px 26px;
+    border-radius: 0 999px 999px 0;
+    margin-left: calc((100vw - min(1080px, 92vw)) / -2);
+    padding-left: calc((100vw - min(1080px, 92vw)) / 2 + 26px);
+    text-shadow: 0 1px 0 rgba(10,26,140,.25);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 26px;
+  }
+  .cookie { position: relative; text-align: center; }
+  .img-slot {
+    position: relative;
+    aspect-ratio: 1;
+    border: 3px dashed var(--sky);
+    border-radius: 50%;
+    background: rgba(134, 212, 255, .12);
+    display: grid; place-items: center;
+    overflow: hidden;
+  }
+  .img-slot img { 
+    position: absolute; 
+    inset: 0; 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    z-index: 1;
+  }
+  .price {
+    position: absolute; top: -6px; right: 4px;
+    width: 76px; height: 76px;
+    display: grid; place-items: center;
+    background: var(--sky);
+    color: #fff;
+    font-family: "Fredoka", sans-serif; font-weight: 700; font-size: 1.15rem;
+    clip-path: polygon(50% 0, 62% 14%, 80% 10%, 82% 28%, 100% 38%, 88% 54%, 96% 72%, 78% 78%, 70% 96%, 52% 88%, 34% 100%, 28% 82%, 8% 78%, 14% 60%, 0 44%, 16% 32%, 18% 12%, 38% 14%);
+    text-shadow: 0 1px 0 rgba(10,26,140,.3);
+    z-index: 2;
+  }
+  .name-tag {
+    background: #fff;
+    color: var(--ink);
+    border-radius: 18px;
+    padding: 8px 12px 10px;
+    margin: -22px auto 12px;
+    width: 86%;
+    position: relative; z-index: 2;
+  }
+  .name-tag h3 { font-size: 1.3rem; line-height: 1.15; }
+  .name-tag span { display: block; font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; }
+
+  .qty {
+    display: inline-flex; align-items: center;
+    background: var(--cream); border-radius: 999px; overflow: hidden;
+  }
+  .qty button {
+    width: 42px; height: 42px; border: 0; cursor: pointer;
+    background: transparent; color: var(--blue-deep);
+    font-family: "Fredoka", sans-serif; font-size: 1.5rem; font-weight: 700;
+  }
+  .qty button:hover { background: var(--sky); }
+  .qty output {
+    min-width: 40px; text-align: center;
+    color: var(--blue-deep); font-weight: 700; font-size: 1.1rem;
+  }
+
+  /* ---------- Order form ---------- */
+  .order {
+    margin: 56px 0 40px;
+    background: var(--cream);
+    color: var(--ink);
+    border-radius: 30px;
+    padding: clamp(22px, 4vw, 44px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(22px, 4vw, 44px);
+  }
+  .order h2 { color: var(--blue-deep); font-size: 2rem; margin-bottom: 14px; grid-column: 1 / -1; }
+  .field { margin-bottom: 16px; }
+  label { display: block; font-weight: 700; margin-bottom: 4px; }
+  input[type="text"], input[type="tel"], input[type="date"], input[type="time"], select, textarea {
+    width: 100%;
+    font: inherit; color: var(--ink);
+    padding: 12px 14px;
+    border: 2px solid var(--mist);
+    border-radius: 14px;
+    background: #fff;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px var(--sky); }
+  textarea { min-height: 80px; resize: vertical; }
+  .radio-group { display: flex; gap: 12px; margin-top: 6px; }
+  .radio-option {
+    display: flex; align-items: center; gap: 8px;
+    background: #fff; padding: 10px 14px; border-radius: 12px;
+    border: 2px solid var(--mist); cursor: pointer; flex: 1; font-weight: 700; font-size: .95rem;
+  }
+  .radio-option input { accent-color: var(--blue); width: 18px; height: 18px; }
+  .hint { font-size: .85rem; opacity: .88; margin-top: 4px; color: var(--blue-deep); }
+
+  .summary { background: var(--mist); border-radius: 20px; padding: 22px; align-self: start; color: var(--blue-deep); }
+  .summary h3 { font-size: 1.4rem; margin-bottom: 10px; }
+  .summary ul { list-style: none; min-height: 28px; }
+  .summary li { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px dashed rgba(10,26,140,.3); }
+  .summary .empty { opacity: .75; border: 0; }
+  .totals { margin-top: 14px; }
+  .totals div { display: flex; justify-content: space-between; padding: 3px 0; }
+  .totals .discount { color: #0b6b3a; font-weight: 700; }
+  .totals .grand { font-family: "Fredoka", sans-serif; font-size: 1.5rem; border-top: 2px solid var(--blue-deep); margin-top: 8px; padding-top: 8px; }
+  .note { margin-top: 12px; font-size: .88rem; line-height: 1.4; }
+  .submit {
+    margin-top: 18px; width: 100%;
+    border: 0; cursor: pointer;
+    background: var(--blue-deep); color: #fff;
+    font-family: "Fredoka", sans-serif; font-size: 1.25rem; font-weight: 600;
+    padding: 14px; border-radius: 999px;
+  }
+  .submit:hover { background: var(--blue); }
+  #error { color: var(--error); font-weight: 700; margin-top: 10px; min-height: 1.4em; }
+
+  /* ---------- Footer info ---------- */
+  .info {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 24px; text-align: center; padding: 30px 0 50px;
+  }
+  .info h3 { font-size: .95rem; letter-spacing: .12em; text-transform: uppercase; color: var(--sky); margin-bottom: 4px; }
+  .info p { font-size: 1.05rem; }
+  .info small { display: block; opacity: .85; }
+
+  @media (max-width: 760px) {
+    .head-grid { grid-template-columns: 1fr; justify-items: center; }
+    .menu-panel { margin: 0; padding: 14px 24px 4px; border-radius: var(--radius); width: 100%; justify-content: center; }
+    .order { grid-template-columns: 1fr; }
+    .category { margin-left: -4vw; padding-left: calc(4vw + 22px); }
+  }
+</style>
 </head>
-<body class="text-slate-800 antialiased min-h-screen pb-12">
+<body>
 
-  <!-- Header Banner Section -->
-  <header class="max-w-5xl mx-auto pt-8 px-4 text-center text-white relative">
-    <div class="flex flex-col items-center justify-center space-y-2">
-      <!-- Dalocs Cloud Logo Title -->
-      <div class="bg-white text-brand-blue px-8 py-4 rounded-full shadow-lg border-4 border-brand-lightSky inline-block transform hover:scale-105 transition duration-300">
-        <h1 class="font-heading text-4xl sm:text-6xl font-black tracking-wider uppercase">DALOCS</h1>
-      </div>
-      <p class="font-heading text-sm sm:text-lg tracking-widest text-brand-lightSky font-bold uppercase mt-2">
-        ONE BITE. PURE DELIGHT.
-      </p>
+<header>
+  <div class="wrap head-grid">
+    <div class="menu-panel"><h1>ME<span>N</span>U</h1></div>
+    <div class="brand">
+      <div class="logo">DALOCS</div>
+      <p>ONE BITE. PURE DELIGHT.</p>
     </div>
+    <div></div>
+  </div>
+</header>
 
-    <!-- Promo Banner Alert -->
-    <div class="mt-6 bg-brand-yellow text-brand-darkBlue p-4 rounded-2xl shadow-xl max-w-lg mx-auto border-2 border-white flex items-center justify-center gap-3 animate-pulse">
-      <i class="fa-solid fa-bullhorn text-2xl sm:text-3xl"></i>
-      <div class="text-left">
-        <span class="font-heading font-black text-lg sm:text-xl block leading-tight">BUY 4 COOKIES & SAVE ₱10!</span>
-        <span class="text-xs sm:text-sm font-semibold opacity-90">MIX & MATCH ANY FLAVORS OF YOUR CHOICE!</span>
-      </div>
-    </div>
-  </header>
+<main class="wrap">
 
-  <main class="max-w-5xl mx-auto px-4 mt-8">
-    <!-- Formspree Endpoint Form Structure -->
-    <!-- REPLACE YOUR_FORMSPREE_FORM_ID BELOW WITH YOUR FORMSPREE FORM CODE AFTER REGISTRATION AT FORMSPREE.IO -->
-    <form id="orderForm" action="https://formspree.io/f/xnpjlgye" method="POST" onsubmit="prepareOrderSubmission(event)" class="space-y-10">
-
-      <!-- Hidden field carrying full item summary for Formspree -->
-      <input type="hidden" name="Order_Summary_Details" id="hiddenOrderSummary">
-      <input type="hidden" name="_subject" value="New Dalocs Cookie Order!">
-
-      <!-- ================= MENU SECTIONS ================= -->
-
-      <!-- 1. SIGNATURE COOKIES -->
-      <section class="bg-brand-darkBlue/40 backdrop-blur-md p-6 rounded-3xl border border-brand-lightSky/30 shadow-2xl">
-        <div class="flex justify-center mb-6">
-          <span class="badge-pill px-8 py-2 text-xl font-heading tracking-wide uppercase border-2 border-brand-lightSky">
-            <i class="fa-solid fa-crown text-yellow-500 mr-2"></i>SIGNATURE COOKIES
-          </span>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-          <!-- Item 1: OG Classic -->
-          <div class="bg-white rounded-2xl p-4 shadow-lg flex flex-col justify-between relative group hover:shadow-2xl transition">
-            <div class="absolute -top-3 -right-3 bg-brand-lightSky text-brand-darkBlue font-heading font-black text-lg px-3 py-1 rounded-full shadow-md z-10 border-2 border-white">
-              ₱50
-            </div>
-            <div>
-              <div class="w-full h-48 bg-slate-100 rounded-xl border-2 border-dashed border-brand-lightSky flex flex-col items-center justify-center text-slate-400 group-hover:bg-brand-lightSky/30 transition overflow-hidden relative">
-                <i class="fa-solid fa-cookie-bite text-5xl mb-2 text-amber-700/60"></i>
-                <span class="font-bold text-xs uppercase text-slate-500">📷 Cookie Image Slot</span>
-                <span class="text-[10px] text-slate-400 mt-1">(OG Classic Photo)</span>
-              </div>
-              <div class="text-center mt-3">
-                <span class="badge-pill px-4 py-1 text-base inline-block border border-slate-200">OG Classic</span>
-                <p class="text-xs text-slate-500 uppercase mt-1 font-semibold tracking-wider">Choco Chip</p>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center justify-between bg-slate-100 p-2 rounded-xl">
-              <span class="text-xs font-bold text-slate-600 ml-2">Qty:</span>
-              <div class="flex items-center space-x-2">
-                <button type="button" onclick="updateQty('og_classic', -1)" class="w-8 h-8 rounded-lg bg-white shadow font-bold text-brand-blue hover:bg-brand-lightSky hover:text-brand-darkBlue transition flex items-center justify-center text-lg">-</button>
-                <span id="qty-og_classic" class="w-8 text-center font-bold text-slate-800">0</span>
-                <button type="button" onclick="updateQty('og_classic', 1)" class="w-8 h-8 rounded-lg bg-white shadow font-bold text-brand-blue hover:bg-brand-lightSky hover:text-brand-darkBlue transition flex items-center justify-center text-lg">+</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 2: Dark Knight -->
-          <div class="bg-white rounded-2xl p-4 shadow-lg flex flex-col justify-between relative group hover:shadow-2xl transition">
-            <div class="absolute -top-3 -right-3 bg-brand-lightSky text-brand-darkBlue font-heading font-black text-lg px-3 py-1 rounded-full shadow-md z-10 border-2 border-white">
-              ₱55
-            </div>
-            <div>
-              <div class="w-full h-48 bg-slate-100 rounded-xl border-2 border-dashed border-brand-lightSky flex flex-col items-center justify-center text-slate-400 group-hover:bg-brand-lightSky/30 transition overflow-hidden relative">
-                <i class="fa-solid fa-cookie-bite text-5xl mb-2 text-amber-900/80"></i>
-                <span class="font-bold text-xs uppercase text-slate-500">📷 Cookie Image Slot</span>
-                <span class="text-[10px] text-slate-400 mt-1">(Dark Knight Photo)</span>
-              </div>
-              <div class="text-center mt-3">
-                <span class="badge-pill px-4 py-1 text-base inline-block border border-slate-200">Dark Knight</span>
-                <p class="text-xs text-slate-500 uppercase mt-1 font-semibold tracking-wider">Dark Choco</p>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center justify-between bg-slate-100 p-2 rounded-xl">
-              <span class="text-xs font-bold text-slate-600 ml-2">Qty:</span>
-              <div class="flex items-center space-x-2">
-                <button type="button" onclick="updateQty('dark_knight', -1)" class="w-8 h-8 rounded-lg bg-white shadow font-bold text-brand-blue hover:bg-brand-lightSky hover:text-brand-darkBlue transition flex items-center justify-center text-lg">-</button>
-                <span id="qty-dark_knight" class="w-8 text-center font-bold text-slate-800">0</span>
-                <button type="button" onclick="updateQty('dark_knight', 1)" class="w-8 h-8 rounded-lg bg-white shadow font-bold text-brand-blue hover:bg-brand-lightSky hover:text-brand-darkBlue transition flex items-center justify-center text-lg">+</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 3: Double Trouble -->
-          <div class="bg-white rounded-2xl p-4 shadow-lg flex flex-col justify-between relative group hover:shadow-2xl transition">
-            <div class="absolute -top-3 -right-3 bg-brand-lightSky text-brand-darkBlue font-heading font-black text-lg px-3 py-1 rounded-full shadow-md z-10 border-2 border-white">
-              ₱65
-            </div>
-            <div>
-              <div class="w-full h-48 bg-slate-100 rounded-xl border-2 border-dashed border-brand-lightSky flex flex-col items-center justify-center text-slate-400 group-hover:bg-brand-lightSky/30 transition overflow-hidden relative">
-                <i class="fa-solid fa-cookie-bite text-5xl mb-2 text-stone-800"></i>
-                <span class="font-bold text-xs uppercase text-slate-500">📷 Cookie Image Slot</span>
-                <span class="text-[10px] text-slate-400 mt-1">(Double Trouble Photo)</span>
-              </div>
-              <div class="text-center mt-3">
-                <span class="badge-pill px-4 py-1 text-base inline-block border border-slate-200">Double Trouble</span>
-                <p class="text-xs text-slate-500 uppercase mt-1 font-semibold tracking-wider">Double Dark Choco</p>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center justify-between bg-slate-100 p-2 rounded-xl">
-              <span class="text-xs font-bold text-slate-600 ml-2">Qty:</span>
-              <div class="flex items-center space-x-2">
-                <button type="button" onclick="updateQty('double_trouble', -1)" class="w-8 h-8 rounded-lg bg-white shadow font-bold text-brand-blue hover:bg-brand-lightSky hover:text-brand-darkBlue transition flex items-center justify-center text-lg">-</button>
-                <span id="qty-double_trouble" class="w-8 text-center font-bold text-slate-800">0</span>
-                <button type="button" onclick="updateQty('double_trouble', 1)" class="w-8 h-8 rounded-lg bg-white shadow font-bold text-brand-blue hover:bg-brand-lightSky hover:text-brand-darkBlue transition flex items-center justify-center text-lg">+</button>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- 2. UNIQUE CRAVINGS -->
-      <section class="bg-brand-darkBlue/40 backdrop-blur-md p-6 rounded-3xl border border-brand-lightSky/30 shadow-2xl">
-        <div class="flex justify-center mb-6">
-          <span class="badge-pill px-8 py-2 text-xl font-heading tracking-wide uppercase border-2 border-brand-lightSky">
-            <i class="fa-solid fa-sparkles text-amber-400 mr-2"></i>UNIQUE CRAVINGS
-          </span>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-
-          <!-- Item 4: Red V -->
-          <div class="bg-white rounded-2xl p-4 shadow-lg flex flex-col justify-between relative group hover:shadow-2xl transition">
-            <div class="absolute -top-3 -right-3 bg-brand-lightSky text-brand-darkBlue font-heading font-black text-lg px-3 py-1 rounded-full shadow-md z-10 border-2 border-white">
-              ₱55
-            </div>
-            <div>
-              <div class="w-full h-48 bg-slate-100 rounded-xl border-2 border-dashed border-brand-lightSky flex flex-col items-center justify-center text-slate-400 group-hover:bg-brand-lightSky/30 transition overflow-hidden relative">
-                <i class="fa-solid fa-cookie-bite text-5xl mb-2 text-rose-700"></i>
-                <span class="font-bold text-xs uppercase text-slate-500">📷 Cookie Image Slot</span>
-                <span class="text-[10px] text-slate-400 mt-1">(Red Velvet Cookie Photo)</span>
-              </div>
-              <div class="text-center mt-3">
-                <span class="badge-pill px-6 py-1 text-base inline-block border border-slate-200">Red V</span>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center justify-between bg-slate-100 p-2 rounded-xl">
-              <span class="text-xs font-bold text-slate-600 ml-2">Qty:</span>
-              <div class="flex items-center space-x-2">
-                <button type="button" onclick="updateQty('red_v', -1)" class="w-8 h-8 rounded-lg bg-white shadow font-bold text-brand-blue hover:bg-brand-lightSky hover:text-brand-darkBlue transition flex items-center justify-center text-lg">-</button>
-                <span id="qty-red_v" class="w-8 text-center font-bold text-slate-800">0</span>
-                <button type="button" onclick="updateQty('red_v', 1)" class="w-8 h-8 rounded-lg bg-white shadow font-bold text-brand-blue hover:bg-brand-lightSky hover:text-brand-darkBlue transition flex items-center justify-center text-lg">+</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 5: Matcha Gotcha -->
-          <div class="bg-white rounded-2xl p-4 shadow-lg flex flex-col justify-between relative group hover:shadow-2xl transition">
-            <div class="absolute -top-3 -right-3 bg-brand-lightSky text-brand-darkBlue font-heading font-black text-lg px-3 py-1 rounded-full shadow-md z-10 border-2 border-white">
-              ₱60
-            </div>
-            <div>
-              <div class="w-full h-48 bg-slate-100 rounded-xl border-2 border-dashed border-brand-lightSky flex flex-col items-center justify-center text-slate-400 group-hover:bg-brand-lightSky/30 transition overflow-hidden relative">
-                <i class="fa-solid fa-cookie-bite text-5xl mb-2 text-emerald-700"></i>
-                <span class="font-bold text-xs uppercase text-slate-500">📷 Cookie Image Slot</span>
-                <span class="text-[10px] text-slate-400 mt-1">(Matcha Gotcha Photo)</span>
-              </div>
-              <div class="text-center mt-3">
-                <span class="badge-pill px-6 py-1 text-base inline-block border border-slate-200">Matcha Gotcha</span>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center justify-between bg-slate-100 p-2 rounded-xl">
-              <span class="text-xs font-bold text-slate-600 ml-2">Qty:</span>
-              <div class="flex items-center space-x-2">
-                <button type="button" onclick="updateQty('matcha_gotcha', -1)" class="w-8 h-8 rounded-lg bg-white shadow font-bold text-brand-blue hover:bg-brand-lightSky hover:text-brand-darkBlue transition flex items-center justify-center text-lg">-</button>
-                <span id="qty-matcha_gotcha" class="w-8 text-center font-bold text-slate-800">0</span>
-                <button type="button" onclick="updateQty('matcha_gotcha', 1)" class="w-8 h-8 rounded-lg bg-white shadow font-bold text-brand-blue hover:bg-brand-lightSky hover:text-brand-darkBlue transition flex items-center justify-center text-lg">+</button>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- 3. INDULGENT TREATS -->
-      <section class="bg-brand-darkBlue/40 backdrop-blur-md p-6 rounded-3xl border border-brand-lightSky/30 shadow-2xl">
-        <div class="flex justify-center mb-6">
-          <span class="badge-pill px-8 py-2 text-xl font-heading tracking-wide uppercase border-2 border-brand-lightSky">
-            <i class="fa-solid fa-heart text-rose-500 mr-2"></i>INDULGENT TREATS
-          </span>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-          <!-- Item 6: Oatmeal -->
-          <div class="bg-white rounded-2xl p-4 shadow-lg flex flex-col justify-between relative group hover:shadow-2xl transition">
-            <div class="absolute -top-3 -right-3 bg-brand-lightSky text-brand-darkBlue font-heading font-black text-lg px-3 py-1 rounded-full shadow-md z-10 border-2 border-white">
-              ₱60
-            </div>
-            <div>
-              <div class="w-full h-48 bg-slate-100 rounded-xl border-2 border-dashed border-brand-lightSky flex flex-col items-center justify-center text-slate-400 group-hover:bg-brand-lightSky/30 transition overflow-hidden relative">
-                <i class="fa-solid fa-cookie-bite text-5xl mb-2 text-amber-600"></i>
-                <span class="font-bold text-xs uppercase text-slate-500">📷 Cookie Image Slot</span>
-                <span class="text-[10px] text-slate-400 mt-1">(Oatmeal Cookie Photo)</span>
-              </div>
-              <div class="text-center mt-3">
-                <span class="badge-pill px-6 py-1 text-base inline-block border border-slate-200">Oatmeal</span>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center justify-between bg-slate-100 p-2 rounded-xl">
-              <span class="text-xs font-bold text-slate-600 ml-2">Qty:</span>
-              <div class="flex items-center space-x-2">
-                <button type="button" onclick="updateQty('oatmeal', -1)" class="w-8 h-8 rounded-lg bg-white shadow font-bold text-brand-blue hover:bg-brand-lightSky hover:text-brand-darkBlue transition flex items-center justify-center text-lg">-</button>
-                <span id="qty-oatmeal" class="w-8 text-center font-bold text-slate-800">0</span>
-                <button type="button" onclick="updateQty('oatmeal', 1)" class="w-8 h-8 rounded-lg bg-white shadow font-bold text-brand-blue hover:bg-brand-lightSky hover:text-brand-darkBlue transition flex items-center justify-center text-lg">+</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 7: Hershey -->
-          <div class="bg-white rounded-2xl p-4 shadow-lg flex flex-col justify-between relative group hover:shadow-2xl transition">
-            <div class="absolute -top-3 -right-3 bg-brand-lightSky text-brand-darkBlue font-heading font-black text-lg px-3 py-1 rounded-full shadow-md z-10 border-2 border-white">
-              ₱65
-            </div>
-            <div>
-              <div class="w-full h-48 bg-slate-100 rounded-xl border-2 border-dashed border-brand-lightSky flex flex-col items-center justify-center text-slate-400 group-hover:bg-brand-lightSky/30 transition overflow-hidden relative">
-                <i class="fa-solid fa-cookie-bite text-5xl mb-2 text-amber-800"></i>
-                <span class="font-bold text-xs uppercase text-slate-500">📷 Cookie Image Slot</span>
-                <span class="text-[10px] text-slate-400 mt-1">(Hershey Cookie Photo)</span>
-              </div>
-              <div class="text-center mt-3">
-                <span class="badge-pill px-6 py-1 text-base inline-block border border-slate-200">Hershey</span>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center justify-between bg-slate-100 p-2 rounded-xl">
-              <span class="text-xs font-bold text-slate-600 ml-2">Qty:</span>
-              <div class="flex items-center space-x-2">
-                <button type="button" onclick="updateQty('hershey', -1)" class="w-8 h-8 rounded-lg bg-white shadow font-bold text-brand-blue hover:bg-brand-lightSky hover:text-brand-darkBlue transition flex items-center justify-center text-lg">-</button>
-                <span id="qty-hershey" class="w-8 text-center font-bold text-slate-800">0</span>
-                <button type="button" onclick="updateQty('hershey', 1)" class="w-8 h-8 rounded-lg bg-white shadow font-bold text-brand-blue hover:bg-brand-lightSky hover:text-brand-darkBlue transition flex items-center justify-center text-lg">+</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Item 8: Biscoff -->
-          <div class="bg-white rounded-2xl p-4 shadow-lg flex flex-col justify-between relative group hover:shadow-2xl transition">
-            <div class="absolute -top-3 -right-3 bg-brand-lightSky text-brand-darkBlue font-heading font-black text-lg px-3 py-1 rounded-full shadow-md z-10 border-2 border-white">
-              ₱65
-            </div>
-            <div>
-              <div class="w-full h-48 bg-slate-100 rounded-xl border-2 border-dashed border-brand-lightSky flex flex-col items-center justify-center text-slate-400 group-hover:bg-brand-lightSky/30 transition overflow-hidden relative">
-                <i class="fa-solid fa-cookie-bite text-5xl mb-2 text-orange-700"></i>
-                <span class="font-bold text-xs uppercase text-slate-500">📷 Cookie Image Slot</span>
-                <span class="text-[10px] text-slate-400 mt-1">(Biscoff Cookie Photo)</span>
-              </div>
-              <div class="text-center mt-3">
-                <span class="badge-pill px-6 py-1 text-base inline-block border border-slate-200">Biscoff</span>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center justify-between bg-slate-100 p-2 rounded-xl">
-              <span class="text-xs font-bold text-slate-600 ml-2">Qty:</span>
-              <div class="flex items-center space-x-2">
-                <button type="button" onclick="updateQty('biscoff', -1)" class="w-8 h-8 rounded-lg bg-white shadow font-bold text-brand-blue hover:bg-brand-lightSky hover:text-brand-darkBlue transition flex items-center justify-center text-lg">-</button>
-                <span id="qty-biscoff" class="w-8 text-center font-bold text-slate-800">0</span>
-                <button type="button" onclick="updateQty('biscoff', 1)" class="w-8 h-8 rounded-lg bg-white shadow font-bold text-brand-blue hover:bg-brand-lightSky hover:text-brand-darkBlue transition flex items-center justify-center text-lg">+</button>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- ================= ORDER SUMMARY & CUSTOMER DETAILS ================= -->
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-        <!-- Customer Information Form Card -->
-        <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl border-4 border-brand-lightSky">
-          <h2 class="font-heading text-2xl font-bold text-brand-darkBlue mb-4 flex items-center gap-2">
-            <i class="fa-solid fa-user text-brand-blue"></i> Customer Information
-          </h2>
-
-          <div class="space-y-4">
-            <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Full Name *</label>
-              <input type="text" name="Customer_Name" id="customerName" required placeholder="e.g. Juan Dela Cruz" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-brand-blue focus:outline-none transition">
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Contact Number *</label>
-              <input type="tel" name="Contact_Number" id="contactNumber" required placeholder="e.g. 0912 345 6789" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-brand-blue focus:outline-none transition">
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Fulfillment Option *</label>
-              <select name="Delivery_Option" id="deliveryOption" required class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-brand-blue focus:outline-none transition bg-white">
-                <option value="Delivery (c/o Buyer via Maxim)">Delivery (c/o Buyer via Maxim)</option>
-                <option value="Pick-Up (Jaro, Iloilo - Every Tuesday)">Pick-Up (Jaro, Iloilo - Every Tuesday)</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Delivery / Pick-Up Address *</label>
-              <textarea name="Delivery_Address" id="deliveryAddress" required rows="2" placeholder="Complete Street Address, Barangay, City/Municipality" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-brand-blue focus:outline-none transition"></textarea>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Preferred Date *</label>
-                <input type="date" name="Preferred_Date" id="preferredDate" required class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-brand-blue focus:outline-none transition">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Preferred Time *</label>
-                <input type="time" name="Preferred_Time" id="preferredTime" required class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-brand-blue focus:outline-none transition">
-              </div>
-            </div>
-
-            <div class="bg-brand-lightSky/40 p-3 rounded-xl text-xs text-brand-darkBlue border border-brand-lightSky flex items-start gap-2">
-              <i class="fa-solid fa-envelope text-brand-blue text-sm mt-0.5"></i>
-              <div>
-                Order submissions are delivered directly to:
-                <strong class="block text-slate-900 font-bold">azril.locsin@students.isatu.edu.ph</strong>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Live Calculation Summary Card -->
-        <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl border-4 border-brand-lightSky flex flex-col justify-between">
-          <div>
-            <h2 class="font-heading text-2xl font-bold text-brand-darkBlue mb-4 flex items-center gap-2">
-              <i class="fa-solid fa-receipt text-brand-blue"></i> Order Summary
-            </h2>
-
-            <!-- Selected items list -->
-            <div id="summaryItems" class="space-y-2 mb-4 max-h-40 overflow-y-auto divide-y divide-slate-100 pr-2">
-              <p class="text-sm text-slate-400 italic">No cookies selected yet. Click + to add your favorite treats!</p>
-            </div>
-
-            <!-- Calculation lines -->
-            <div class="border-t-2 border-slate-100 pt-4 space-y-2 text-sm">
-              <div class="flex justify-between text-slate-600">
-                <span>Total Cookies Count:</span>
-                <span id="totalItemsCount" class="font-bold text-slate-800">0 pcs</span>
-              </div>
-
-              <div class="flex justify-between text-slate-600">
-                <span>Subtotal:</span>
-                <span id="subtotalPrice" class="font-bold text-slate-800">₱0</span>
-              </div>
-
-              <div class="flex justify-between text-emerald-600 font-medium">
-                <span class="flex items-center gap-1">
-                  <i class="fa-solid fa-tags"></i> Discount (₱10 per 4 cookies):
-                </span>
-                <span id="discountPrice" class="font-bold">-₱0</span>
-              </div>
-
-              <div class="text-[11px] text-slate-400 italic text-right" id="discountNote">
-                Add 4 cookies to earn a ₱10 discount!
-              </div>
-            </div>
-          </div>
-
-          <!-- Total & Submit Button -->
-          <div class="mt-6 pt-4 border-t-2 border-slate-200">
-            <div class="flex justify-between items-center mb-6">
-              <span class="font-heading text-lg font-bold text-slate-700">Total Payable:</span>
-              <span id="finalTotal" class="font-heading text-3xl font-black text-brand-blue">₱0</span>
-            </div>
-
-            <button type="submit" class="w-full bg-brand-yellow hover:bg-amber-400 text-brand-darkBlue font-heading font-black text-xl py-4 rounded-2xl shadow-lg border-2 border-white transform hover:-translate-y-0.5 active:translate-y-0 transition flex items-center justify-center gap-2 cursor-pointer">
-              <i class="fa-solid fa-paper-plane"></i> SUBMIT ORDER NOW
-            </button>
-          </div>
-        </div>
-
-      </div>
-    </form>
-  </main>
-
-  <!-- Footer Information Section based on Pubmat -->
-  <footer class="max-w-5xl mx-auto px-4 mt-12">
-    <div class="bg-brand-darkBlue/80 backdrop-blur-md rounded-3xl p-6 sm:p-8 text-white border border-brand-lightSky/40">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-
-        <div class="flex flex-col items-center">
-          <div class="w-12 h-12 rounded-full bg-brand-lightSky text-brand-darkBlue flex items-center justify-center text-xl mb-3 shadow">
-            <i class="fa-solid fa-comments"></i>
-          </div>
-          <h4 class="font-heading font-bold text-sm tracking-wide uppercase text-brand-lightSky">HOW TO ORDER</h4>
-          <p class="text-xs mt-1 text-slate-200">DM us on Instagram</p>
-          <a href="https://instagram.com/dalocs" target="_blank" class="text-xs font-bold text-brand-yellow hover:underline mt-0.5">@dalocs</a>
-        </div>
-
-        <div class="flex flex-col items-center">
-          <div class="w-12 h-12 rounded-full bg-brand-lightSky text-brand-darkBlue flex items-center justify-center text-xl mb-3 shadow">
-            <i class="fa-solid fa-bag-shopping"></i>
-          </div>
-          <h4 class="font-heading font-bold text-sm tracking-wide uppercase text-brand-lightSky">PICK-UP</h4>
-          <p class="text-xs mt-1 text-slate-200">Every <strong class="text-white">TUESDAY</strong></p>
-          <span class="text-[10px] text-slate-300">(JARO, ILOILO)</span>
-        </div>
-
-        <div class="flex flex-col items-center">
-          <div class="w-12 h-12 rounded-full bg-brand-lightSky text-brand-darkBlue flex items-center justify-center text-xl mb-3 shadow">
-            <i class="fa-solid fa-truck-fast"></i>
-          </div>
-          <h4 class="font-heading font-bold text-sm tracking-wide uppercase text-brand-lightSky">DELIVERY</h4>
-          <p class="text-xs mt-1 text-slate-200">C/O buyer</p>
-          <span class="text-[10px] text-brand-yellow font-semibold">{maxim}</span>
-        </div>
-
-        <div class="flex flex-col items-center">
-          <div class="w-12 h-12 rounded-full bg-brand-lightSky text-brand-darkBlue flex items-center justify-center text-xl mb-3 shadow">
-            <i class="fa-solid fa-calendar-xmark"></i>
-          </div>
-          <h4 class="font-heading font-bold text-sm tracking-wide uppercase text-brand-lightSky">ORDER CUT-OFF</h4>
-          <p class="text-xs mt-1 text-slate-200">Every <strong class="text-white">FRIDAY</strong></p>
-          <span class="text-[10px] text-brand-yellow font-semibold">7:00 PM</span>
-        </div>
-
-      </div>
-
-      <div class="mt-8 pt-4 border-t border-brand-lightSky/30 text-center text-xs text-slate-300">
-        © Dalocs Cookies. All rights reserved. | Freshly baked cookies in Jaro, Iloilo.
-      </div>
-    </div>
-  </footer>
-
-  <!-- Notification Toast Container -->
-  <div id="msgContainer" class="fixed bottom-5 right-5 max-w-sm bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border-2 border-brand-lightSky hidden z-50">
-    <div class="flex items-start gap-3">
-      <i class="fa-solid fa-circle-check text-emerald-400 text-2xl mt-0.5"></i>
-      <div>
-        <h5 id="msgTitle" class="font-bold text-sm">Notification</h5>
-        <p id="msgBody" class="text-xs text-slate-300 mt-1"></p>
-      </div>
-    </div>
+  <div class="promo">
+    <h2>Buy 4 cookies &amp; save ₱10!</h2>
+    <p>Mix any flavors. Every 4 cookies in your order takes ₱10 off.</p>
   </div>
 
-  <script>
-    const menuItems = {
-      og_classic: { name: 'OG Classic (Choco Chip)', price: 50, qty: 0 },
-      dark_knight: { name: 'Dark Knight (Dark Choco)', price: 55, qty: 0 },
-      double_trouble: { name: 'Double Trouble (Double Dark Choco)', price: 65, qty: 0 },
-      red_v: { name: 'Red V', price: 55, qty: 0 },
-      matcha_gotcha: { name: 'Matcha Gotcha', price: 60, qty: 0 },
-      oatmeal: { name: 'Oatmeal', price: 60, qty: 0 },
-      hershey: { name: 'Hershey', price: 65, qty: 0 },
-      biscoff: { name: 'Biscoff', price: 65, qty: 0 }
-    };
+  <!-- ===== SIGNATURE COOKIES ===== -->
+  <h2 class="category">SIGNATURE COOKIES</h2>
+  <div class="grid">
+    <article class="cookie" data-name="OG Classic" data-price="50">
+      <div class="img-slot">
+        <img src="Ogclassic.PNG" alt="OG Classic cookie">
+      </div>
+      <div class="price">₱50</div>
+      <div class="name-tag"><h3>OG Classic</h3><span>Choco chip</span></div>
+      <div class="qty"><button type="button" aria-label="Remove one OG Classic">−</button><output>0</output><button type="button" aria-label="Add one OG Classic">+</button></div>
+    </article>
 
-    function updateQty(key, change) {
-      if (menuItems[key]) {
-        menuItems[key].qty = Math.max(0, menuItems[key].qty + change);
-        document.getElementById(`qty-${key}`).innerText = menuItems[key].qty;
-        recalculateTotals();
-      }
+    <article class="cookie" data-name="Dark Knight" data-price="55">
+      <div class="img-slot">
+        <img src="DarkKnight.PNG" alt="Dark Knight cookie">
+      </div>
+      <div class="price">₱55</div>
+      <div class="name-tag"><h3>Dark Knight</h3><span>Dark choco</span></div>
+      <div class="qty"><button type="button" aria-label="Remove one Dark Knight">−</button><output>0</output><button type="button" aria-label="Add one Dark Knight">+</button></div>
+    </article>
+
+    <article class="cookie" data-name="Double Trouble" data-price="65">
+      <div class="img-slot">
+        <img src="DoubleTrouble.PNG" alt="Double Trouble cookie">
+      </div>
+      <div class="price">₱65</div>
+      <div class="name-tag"><h3>Double Trouble</h3><span>Double dark choco</span></div>
+      <div class="qty"><button type="button" aria-label="Remove one Double Trouble">−</button><output>0</output><button type="button" aria-label="Add one Double Trouble">+</button></div>
+    </article>
+  </div>
+
+  <!-- ===== UNIQUE CRAVINGS ===== -->
+  <h2 class="category">UNIQUE CRAVINGS</h2>
+  <div class="grid">
+    <article class="cookie" data-name="Red V" data-price="55">
+      <div class="img-slot">
+        <img src="RedVelvet.PNG" alt="Red V cookie">
+      </div>
+      <div class="price">₱55</div>
+      <div class="name-tag"><h3>Red V</h3></div>
+      <div class="qty"><button type="button" aria-label="Remove one Red V">−</button><output>0</output><button type="button" aria-label="Add one Red V">+</button></div>
+    </article>
+
+    <article class="cookie" data-name="Matcha Gotcha" data-price="60">
+      <div class="img-slot">
+        <img src="Matcha.PNG" alt="Matcha Gotcha cookie">
+      </div>
+      <div class="price">₱60</div>
+      <div class="name-tag"><h3>Matcha Gotcha</h3></div>
+      <div class="qty"><button type="button" aria-label="Remove one Matcha Gotcha">−</button><output>0</output><button type="button" aria-label="Add one Matcha Gotcha">+</button></div>
+    </article>
+  </div>
+
+  <!-- ===== INDULGENT TREATS ===== -->
+  <h2 class="category">INDULGENT TREATS</h2>
+  <div class="grid">
+    <article class="cookie" data-name="Oatmeal" data-price="60">
+      <div class="img-slot">
+        <img src="Oatmeal.PNG" alt="Oatmeal cookie">
+      </div>
+      <div class="price">₱60</div>
+      <div class="name-tag"><h3>Oatmeal</h3></div>
+      <div class="qty"><button type="button" aria-label="Remove one Oatmeal">−</button><output>0</output><button type="button" aria-label="Add one Oatmeal">+</button></div>
+    </article>
+
+    <article class="cookie" data-name="Hershey" data-price="65">
+      <div class="img-slot">
+        <img src="Hershey.PNG" alt="Hershey cookie">
+      </div>
+      <div class="price">₱65</div>
+      <div class="name-tag"><h3>Hershey</h3></div>
+      <div class="qty"><button type="button" aria-label="Remove one Hershey">−</button><output>0</output><button type="button" aria-label="Add one Hershey">+</button></div>
+    </article>
+
+    <article class="cookie" data-name="Biscoff" data-price="65">
+      <div class="img-slot">
+        <img src="Bsicoff.PNG" alt="Biscoff cookie">
+      </div>
+      <div class="price">₱65</div>
+      <div class="name-tag"><h3>Biscoff</h3></div>
+      <div class="qty"><button type="button" aria-label="Remove one Biscoff">−</button><output>0</output><button type="button" aria-label="Add one Biscoff">+</button></div>
+    </article>
+  </div>
+
+  <!-- ===== ORDER FORM ===== -->
+  <form class="order" id="orderForm" action="https://formspree.io/f/xnpjlgye" method="POST">
+    <h2>Place your order</h2>
+
+    <div>
+      <div class="field">
+        <label for="name">Full name</label>
+        <input type="text" id="name" name="Name" autocomplete="name" required>
+      </div>
+
+      <div class="field">
+        <label for="contact">Contact number</label>
+        <input type="tel" id="contact" name="Contact Number" autocomplete="tel" inputmode="tel" pattern="[0-9+\s\-]{7,15}" placeholder="09XX XXX XXXX" required>
+      </div>
+
+      <!-- Fulfillment Option Selection -->
+      <div class="field">
+        <label>How would you like to receive your cookies?</label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="Fulfillment Method" value="Pick-up (Jaro, Iloilo)" id="optPickup" checked>
+            Pick-up
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="Fulfillment Method" value="Delivery (c/o buyer via Maxim)" id="optDelivery">
+            Delivery (Maxim)
+          </label>
+        </div>
+      </div>
+
+      <!-- Date and Preferred Time -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div class="field">
+          <label for="fulfillDate" id="lblDate">Preferred Date</label>
+          <input type="date" id="fulfillDate" name="Preferred Date" required>
+        </div>
+        <div class="field">
+          <label for="fulfillTime">Preferred Time</label>
+          <input type="time" id="fulfillTime" name="Preferred Time" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="address" id="lblAddress">Pick-up / Delivery Details</label>
+        <textarea id="address" name="Address / Location Details" placeholder="Enter full delivery address or pick-up location preference" required></textarea>
+        <p class="hint" id="fulfillmentHint">📍 <strong>Pick-up:</strong> Available every <strong>Tuesday</strong> at Jaro, Iloilo.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="summary" aria-live="polite">
+        <h3>Your order</h3>
+        <ul id="lines"><li class="empty">No cookies yet. Tap + on a flavor above.</li></ul>
+        <div class="totals">
+          <div><span>Cookies</span><span id="count">0</span></div>
+          <div><span>Subtotal</span><span id="subtotal">₱0</span></div>
+          <div class="discount"><span id="discLabel">Discount</span><span id="discount">−₱0</span></div>
+          <div class="grand"><span>Total</span><span id="total">₱0</span></div>
+        </div>
+        <p class="note">
+          ⏰ <strong>Order Cut-off:</strong> Every <strong>Friday, 7:00 PM</strong>.<br>
+          📍 <strong>Pick-up:</strong> Every <strong>Tuesday</strong> (Jaro, Iloilo).<br>
+          🛵 <strong>Delivery:</strong> C/O buyer via <strong>Maxim</strong>.
+        </p>
+      </div>
+      <p id="error" role="alert"></p>
+      <button class="submit" type="submit">Send my order</button>
+    </div>
+
+    <!-- Hidden fields for email summary -->
+    <input type="hidden" name="Order Details" id="f_details">
+    <input type="hidden" name="Total Cookies" id="f_count">
+    <input type="hidden" name="Subtotal" id="f_subtotal">
+    <input type="hidden" name="Discount" id="f_discount">
+    <input type="hidden" name="Total to Pay" id="f_total">
+    <input type="hidden" name="_subject" value="New Dalocs Cookie Order!">
+  </form>
+
+  <section class="info" aria-label="Ordering information">
+    <div><h3>How to order</h3><p>DM us on Instagram<br><strong>@dalocs</strong></p></div>
+    <div><h3>Pick-up</h3><p>Every <strong>Tuesday</strong><small>Jaro, Iloilo</small></p></div>
+    <div><h3>Delivery</h3><p>C/O <strong>buyer</strong><small>(Maxim)</small></p></div>
+    <div><h3>Order cut-off</h3><p>Every <strong>Friday</strong><small>7:00 PM</small></p></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  var DISCOUNT_PER_4 = 10;
+  var cards = document.querySelectorAll('.cookie');
+  var qtys = new Map();
+  var peso = function (n) { return '₱' + n.toLocaleString('en-PH'); };
+
+  /* Fulfillment choice listener */
+  var optPickup = document.getElementById('optPickup');
+  var optDelivery = document.getElementById('optDelivery');
+  var hint = document.getElementById('fulfillmentHint');
+
+  optPickup.addEventListener('change', function () {
+    if (optPickup.checked) {
+      hint.innerHTML = '📍 <strong>Pick-up:</strong> Available every <strong>Tuesday</strong> at Jaro, Iloilo.';
     }
+  });
 
-    function recalculateTotals() {
-      let totalCookies = 0;
-      let subtotal = 0;
-      let summaryHTML = '';
-
-      for (const key in menuItems) {
-        const item = menuItems[key];
-        if (item.qty > 0) {
-          totalCookies += item.qty;
-          const itemTotal = item.price * item.qty;
-          subtotal += itemTotal;
-
-          summaryHTML += `
-            <div class="flex justify-between items-center py-1 text-xs">
-              <div>
-                <span class="font-semibold text-slate-800">${item.name}</span>
-                <span class="text-slate-500 ml-1">x${item.qty}</span>
-              </div>
-              <span class="font-bold text-slate-700">₱${itemTotal}</span>
-            </div>
-          `;
-        }
-      }
-
-      const discountSets = Math.floor(totalCookies / 4);
-      const discountAmount = discountSets * 10;
-      const finalTotal = subtotal - discountAmount;
-
-      const summaryContainer = document.getElementById('summaryItems');
-      if (totalCookies > 0) {
-        summaryContainer.innerHTML = summaryHTML;
-      } else {
-        summaryContainer.innerHTML = `<p class="text-sm text-slate-400 italic">No cookies selected yet. Click + to add your favorite treats!</p>`;
-      }
-
-      document.getElementById('totalItemsCount').innerText = `${totalCookies} pcs`;
-      document.getElementById('subtotalPrice').innerText = `₱${subtotal}`;
-      document.getElementById('discountPrice').innerText = `-₱${discountAmount}`;
-      document.getElementById('finalTotal').innerText = `₱${finalTotal}`;
-
-      const discountNote = document.getElementById('discountNote');
-      if (discountSets > 0) {
-        const remainder = totalCookies % 4;
-        const nextBonus = 4 - remainder;
-        if (remainder === 0) {
-          discountNote.innerText = `Great! Saved ₱${discountAmount} for ${totalCookies} cookies! 🎉`;
-        } else {
-          discountNote.innerText = `Add ${nextBonus} more cookie(s) to get another ₱10 off!`;
-        }
-        discountNote.className = 'text-[11px] text-emerald-600 font-semibold text-right';
-      } else {
-        const remaining = 4 - totalCookies;
-        discountNote.innerText = `Add ${remaining} more cookie(s) to get ₱10 discount!`;
-        discountNote.className = 'text-[11px] text-slate-400 italic text-right';
-      }
+  optDelivery.addEventListener('change', function () {
+    if (optDelivery.checked) {
+      hint.innerHTML = '🛵 <strong>Delivery:</strong> C/O buyer via <strong>Maxim</strong>. (Cut-off Friday 7:00 PM).';
     }
+  });
 
-    function showNotification(title, message) {
-      const msgContainer = document.getElementById('msgContainer');
-      document.getElementById('msgTitle').innerText = title;
-      document.getElementById('msgBody').innerText = message;
-      
-      msgContainer.classList.remove('hidden');
-      setTimeout(() => {
-        msgContainer.classList.add('hidden');
-      }, 5000);
-    }
+  cards.forEach(function (card) {
+    var out = card.querySelector('output');
+    var btns = card.querySelectorAll('button');
+    qtys.set(card, 0);
+    btns[0].addEventListener('click', function () { change(card, out, -1); });
+    btns[1].addEventListener('click', function () { change(card, out, 1); });
+  });
 
-    function prepareOrderSubmission(event) {
-      let totalCookies = 0;
-      let orderItemsList = [];
-      let subtotal = 0;
+  function change(card, out, d) {
+    var v = Math.max(0, Math.min(99, qtys.get(card) + d));
+    qtys.set(card, v);
+    out.textContent = v;
+    render();
+  }
 
-      for (const key in menuItems) {
-        const item = menuItems[key];
-        if (item.qty > 0) {
-          totalCookies += item.qty;
-          const lineTotal = item.price * item.qty;
-          subtotal += lineTotal;
-          orderItemsList.push(`${item.name} x${item.qty} (₱${lineTotal})`);
-        }
+  function state() {
+    var count = 0, subtotal = 0, lines = [];
+    cards.forEach(function (c) {
+      var q = qtys.get(c);
+      if (q > 0) {
+        var p = Number(c.dataset.price);
+        count += q; subtotal += q * p;
+        lines.push({ name: c.dataset.name, q: q, amt: q * p });
       }
+    });
+    var sets = Math.floor(count / 4);
+    var discount = sets * DISCOUNT_PER_4;
+    return { count: count, subtotal: subtotal, sets: sets, discount: discount, total: subtotal - discount, lines: lines };
+  }
 
-      if (totalCookies === 0) {
-        event.preventDefault();
-        showNotification("No Items Selected", "Please select at least 1 cookie before submitting your order!");
-        return false;
-      }
-
-      const discountSets = Math.floor(totalCookies / 4);
-      const discountAmount = discountSets * 10;
-      const finalTotal = subtotal - discountAmount;
-
-      const summaryString = `Items: ${orderItemsList.join(' | ')} || Total Qty: ${totalCookies} pcs || Subtotal: ₱${subtotal} || Discount: -₱${discountAmount} || Final Payable: ₱${finalTotal}`;
-
-      document.getElementById('hiddenOrderSummary').value = summaryString;
+  function render() {
+    var s = state();
+    var ul = document.getElementById('lines');
+    ul.innerHTML = '';
+    if (!s.lines.length) {
+      ul.innerHTML = '<li class="empty">No cookies yet. Tap + on a flavor above.</li>';
+    } else {
+      s.lines.forEach(function (l) {
+        var li = document.createElement('li');
+        li.innerHTML = '<span></span><span></span>';
+        li.children[0].textContent = l.q + ' × ' + l.name;
+        li.children[1].textContent = peso(l.amt);
+        ul.appendChild(li);
+      });
     }
-  </script>
+    document.getElementById('count').textContent = s.count;
+    document.getElementById('subtotal').textContent = peso(s.subtotal);
+    document.getElementById('discLabel').textContent = s.sets ? 'Discount (' + s.sets + ' × 4 cookies)' : 'Discount';
+    document.getElementById('discount').textContent = '−' + peso(s.discount);
+    document.getElementById('total').textContent = peso(s.total);
+  }
+
+  document.getElementById('orderForm').addEventListener('submit', function (e) {
+    var s = state(), err = document.getElementById('error');
+    if (!s.count) {
+      e.preventDefault();
+      err.textContent = 'Please add at least one cookie before sending your order.';
+      return;
+    }
+    err.textContent = '';
+    document.getElementById('f_details').value = s.lines.map(function (l) {
+      return l.q + ' x ' + l.name + ' (' + peso(l.amt) + ')';
+    }).join('; ');
+    document.getElementById('f_count').value = s.count;
+    document.getElementById('f_subtotal').value = peso(s.subtotal);
+    document.getElementById('f_discount').value = '-' + peso(s.discount);
+    document.getElementById('f_total').value = peso(s.total);
+  });
+
+  render();
+})();
+</script>
 </body>
 </html>
