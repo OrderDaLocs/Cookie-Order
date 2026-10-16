@@ -256,4 +256,294 @@
       </div>
       <div class="price">₱50</div>
       <div class="name-tag"><h3>OG Classic</h3><span>Choco chip</span></div>
-      <div class="qty"><button type="button" aria-label="Remove one OG Classic">−</button><output>0</output><button type="button" aria-label
+      <div class="qty"><button type="button" aria-label="Remove one OG Classic">−</button><output>0</output><button type="button" aria-label="Add one OG Classic">+</button></div>
+    </article>
+
+    <article class="cookie" data-name="Dark Knight" data-price="55">
+      <div class="img-slot">
+        <img src="DarkKnight.PNG" alt="Dark Knight cookie">
+      </div>
+      <div class="price">₱55</div>
+      <div class="name-tag"><h3>Dark Knight</h3><span>Dark choco</span></div>
+      <div class="qty"><button type="button" aria-label="Remove one Dark Knight">−</button><output>0</output><button type="button" aria-label="Add one Dark Knight">+</button></div>
+    </article>
+
+    <article class="cookie" data-name="Double Trouble" data-price="65">
+      <div class="img-slot">
+        <img src="DoubleTrouble.PNG" alt="Double Trouble cookie">
+      </div>
+      <div class="price">₱65</div>
+      <div class="name-tag"><h3>Double Trouble</h3><span>Double dark choco</span></div>
+      <div class="qty"><button type="button" aria-label="Remove one Double Trouble">−</button><output>0</output><button type="button" aria-label="Add one Double Trouble">+</button></div>
+    </article>
+  </div>
+
+  <!-- ===== UNIQUE CRAVINGS ===== -->
+  <h2 class="category">UNIQUE CRAVINGS</h2>
+  <div class="grid">
+    <article class="cookie" data-name="Red V" data-price="55">
+      <div class="img-slot">
+        <img src="RedVelvet.PNG" alt="Red V cookie">
+      </div>
+      <div class="price">₱55</div>
+      <div class="name-tag"><h3>Red V</h3></div>
+      <div class="qty"><button type="button" aria-label="Remove one Red V">−</button><output>0</output><button type="button" aria-label="Add one Red V">+</button></div>
+    </article>
+
+    <article class="cookie" data-name="Matcha Gotcha" data-price="60">
+      <div class="img-slot">
+        <img src="Matcha.PNG" alt="Matcha Gotcha cookie">
+      </div>
+      <div class="price">₱60</div>
+      <div class="name-tag"><h3>Matcha Gotcha</h3></div>
+      <div class="qty"><button type="button" aria-label="Remove one Matcha Gotcha">−</button><output>0</output><button type="button" aria-label="Add one Matcha Gotcha">+</button></div>
+    </article>
+  </div>
+
+  <!-- ===== INDULGENT TREATS ===== -->
+  <h2 class="category">INDULGENT TREATS</h2>
+  <div class="grid">
+    <article class="cookie" data-name="Oatmeal" data-price="60">
+      <div class="img-slot">
+        <img src="Oatmeal.PNG" alt="Oatmeal cookie">
+      </div>
+      <div class="price">₱60</div>
+      <div class="name-tag"><h3>Oatmeal</h3></div>
+      <div class="qty"><button type="button" aria-label="Remove one Oatmeal">−</button><output>0</output><button type="button" aria-label="Add one Oatmeal">+</button></div>
+    </article>
+
+    <article class="cookie" data-name="Hershey" data-price="65">
+      <div class="img-slot">
+        <img src="Hershey.PNG" alt="Hershey cookie">
+      </div>
+      <div class="price">₱65</div>
+      <div class="name-tag"><h3>Hershey</h3></div>
+      <div class="qty"><button type="button" aria-label="Remove one Hershey">−</button><output>0</output><button type="button" aria-label="Add one Hershey">+</button></div>
+    </article>
+
+    <article class="cookie" data-name="Biscoff" data-price="65">
+      <div class="img-slot">
+        <img src="Bsicoff.PNG" alt="Biscoff cookie">
+      </div>
+      <div class="price">₱65</div>
+      <div class="name-tag"><h3>Biscoff</h3></div>
+      <div class="qty"><button type="button" aria-label="Remove one Biscoff">−</button><output>0</output><button type="button" aria-label="Add one Biscoff">+</button></div>
+    </article>
+  </div>
+
+  <!-- ===== ORDER FORM ===== -->
+  <form class="order" id="orderForm" action="https://formspree.io/f/xnpjlgye" method="POST">
+    <h2>Place your order</h2>
+
+    <div>
+      <div class="field">
+        <label for="name">Full name</label>
+        <input type="text" id="name" name="Name" autocomplete="name" required>
+      </div>
+
+      <div class="field">
+        <label for="contact">Contact number</label>
+        <input type="tel" id="contact" name="Contact Number" autocomplete="tel" inputmode="tel" pattern="[0-9+\s\-]{7,15}" placeholder="09XX XXX XXXX" required>
+      </div>
+
+      <!-- Fulfillment Option Selection -->
+      <div class="field">
+        <label>How would you like to receive your cookies?</label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="Fulfillment Method" value="Pick-up (Jaro, Iloilo)" id="optPickup" checked>
+            Pick-up
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="Fulfillment Method" value="Delivery (c/o buyer via Maxim)" id="optDelivery">
+            Delivery (Maxim)
+          </label>
+        </div>
+      </div>
+
+      <!-- Tuesday Dropdown and Afternoon/Evening Time Selection -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div class="field">
+          <label for="fulfillDate" id="lblDate">Pick-up Tuesday Date</label>
+          <select id="fulfillDate" name="Preferred Date" required>
+            <option value="" disabled selected>Select Tuesday</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fulfillTime">Preferred Time</label>
+          <select id="fulfillTime" name="Preferred Time" required>
+            <option value="" disabled selected>Select time</option>
+            <option value="Afternoon">Afternoon</option>
+            <option value="Evening">Evening</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="address" id="lblAddress">Address / Pick-up Details</label>
+        <textarea id="address" name="Address / Location Details" placeholder="Enter pick-up details or delivery address" required></textarea>
+        <p class="hint" id="fulfillmentHint">📍 <strong>Pick-up:</strong> Every <strong>Tuesday</strong> at Jaro, Iloilo.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="summary" aria-live="polite">
+        <h3>Your order</h3>
+        <ul id="lines"><li class="empty">No cookies yet. Tap + on a flavor above.</li></ul>
+        <div class="totals">
+          <div><span>Cookies</span><span id="count">0</span></div>
+          <div><span>Subtotal</span><span id="subtotal">₱0</span></div>
+          <div class="discount"><span id="discLabel">Discount</span><span id="discount">−₱0</span></div>
+          <div class="grand"><span>Total</span><span id="total">₱0</span></div>
+        </div>
+        <p class="note">
+          ⏰ <strong>Order Cut-off:</strong> Every <strong>Friday, 7:00 PM</strong>.<br>
+          📍 <strong>Pick-up:</strong> Every <strong>Tuesday</strong> (Jaro, Iloilo).<br>
+          🛵 <strong>Delivery:</strong> C/O buyer via <strong>Maxim</strong>.
+        </p>
+      </div>
+      <p id="error" role="alert"></p>
+      <button class="submit" type="submit">Send my order</button>
+    </div>
+
+    <!-- Hidden fields for email summary -->
+    <input type="hidden" name="Order Details" id="f_details">
+    <input type="hidden" name="Total Cookies" id="f_count">
+    <input type="hidden" name="Subtotal" id="f_subtotal">
+    <input type="hidden" name="Discount" id="f_discount">
+    <input type="hidden" name="Total to Pay" id="f_total">
+    <input type="hidden" name="_subject" value="New Dalocs Cookie Order!">
+  </form>
+
+  <section class="info" aria-label="Ordering information">
+    <div><h3>How to order</h3><p>DM us on Instagram<br><strong>@dalocs</strong></p></div>
+    <div><h3>Pick-up</h3><p>Every <strong>Tuesday</strong><small>Jaro, Iloilo</small></p></div>
+    <div><h3>Delivery</h3><p>C/O <strong>buyer</strong><small>(Maxim)</small></p></div>
+    <div><h3>Order cut-off</h3><p>Every <strong>Friday</strong><small>7:00 PM</small></p></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  var DISCOUNT_PER_4 = 10;
+  var cards = document.querySelectorAll('.cookie');
+  var qtys = new Map();
+  var peso = function (n) { return '₱' + n.toLocaleString('en-PH'); };
+
+  /* Automatically generate upcoming Tuesdays for mobile-friendly dropdown */
+  var fulfillDateSelect = document.getElementById('fulfillDate');
+  function populateTuesdays() {
+    fulfillDateSelect.innerHTML = '<option value="" disabled selected>Select Tuesday</option>';
+    var today = new Date();
+    var count = 0;
+    
+    for (var i = 0; i < 30; i++) {
+      var d = new Date(today);
+      d.setDate(today.getDate() + i);
+      if (d.getDay() === 2) { // Tuesday
+        var opt = document.createElement('option');
+        var dateString = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+        opt.value = dateString;
+        opt.textContent = dateString;
+        fulfillDateSelect.appendChild(opt);
+        count++;
+        if (count >= 4) break; // Offer next 4 Tuesdays
+      }
+    }
+  }
+
+  /* Fulfillment toggle listener */
+  var optPickup = document.getElementById('optPickup');
+  var optDelivery = document.getElementById('optDelivery');
+  var hint = document.getElementById('fulfillmentHint');
+  var lblDate = document.getElementById('lblDate');
+
+  function updateFulfillmentUI() {
+    if (optPickup.checked) {
+      lblDate.textContent = 'Pick-up Tuesday Date';
+      hint.innerHTML = '📍 <strong>Pick-up:</strong> Available every <strong>Tuesday</strong> at Jaro, Iloilo.';
+    } else {
+      lblDate.textContent = 'Delivery Date (Tuesday)';
+      hint.innerHTML = '🛵 <strong>Delivery:</strong> C/O buyer via <strong>Maxim</strong>. (Cut-off Friday 7:00 PM).';
+    }
+  }
+
+  optPickup.addEventListener('change', updateFulfillmentUI);
+  optDelivery.addEventListener('change', updateFulfillmentUI);
+
+  cards.forEach(function (card) {
+    var out = card.querySelector('output');
+    var btns = card.querySelectorAll('button');
+    qtys.set(card, 0);
+    btns[0].addEventListener('click', function () { change(card, out, -1); });
+    btns[1].addEventListener('click', function () { change(card, out, 1); });
+  });
+
+  function change(card, out, d) {
+    var v = Math.max(0, Math.min(99, qtys.get(card) + d));
+    qtys.set(card, v);
+    out.textContent = v;
+    render();
+  }
+
+  function state() {
+    var count = 0, subtotal = 0, lines = [];
+    cards.forEach(function (c) {
+      var q = qtys.get(c);
+      if (q > 0) {
+        var p = Number(c.dataset.price);
+        count += q; subtotal += q * p;
+        lines.push({ name: c.dataset.name, q: q, amt: q * p });
+      }
+    });
+    var sets = Math.floor(count / 4);
+    var discount = sets * DISCOUNT_PER_4;
+    return { count: count, subtotal: subtotal, sets: sets, discount: discount, total: subtotal - discount, lines: lines };
+  }
+
+  function render() {
+    var s = state();
+    var ul = document.getElementById('lines');
+    ul.innerHTML = '';
+    if (!s.lines.length) {
+      ul.innerHTML = '<li class="empty">No cookies yet. Tap + on a flavor above.</li>';
+    } else {
+      s.lines.forEach(function (l) {
+        var li = document.createElement('li');
+        li.innerHTML = '<span></span><span></span>';
+        li.children[0].textContent = l.q + ' × ' + l.name;
+        li.children[1].textContent = peso(l.amt);
+        ul.appendChild(li);
+      });
+    }
+    document.getElementById('count').textContent = s.count;
+    document.getElementById('subtotal').textContent = peso(s.subtotal);
+    document.getElementById('discLabel').textContent = s.sets ? 'Discount (' + s.sets + ' × 4 cookies)' : 'Discount';
+    document.getElementById('discount').textContent = '−' + peso(s.discount);
+    document.getElementById('total').textContent = peso(s.total);
+  }
+
+  document.getElementById('orderForm').addEventListener('submit', function (e) {
+    var s = state(), err = document.getElementById('error');
+    if (!s.count) {
+      e.preventDefault();
+      err.textContent = 'Please add at least one cookie before sending your order.';
+      return;
+    }
+    err.textContent = '';
+    document.getElementById('f_details').value = s.lines.map(function (l) {
+      return l.q + ' x ' + l.name + ' (' + peso(l.amt) + ')';
+    }).join('; ');
+    document.getElementById('f_count').value = s.count;
+    document.getElementById('f_subtotal').value = peso(s.subtotal);
+    document.getElementById('f_discount').value = '-' + peso(s.discount);
+    document.getElementById('f_total').value = peso(s.total);
+  });
+
+  populateTuesdays();
+  updateFulfillmentUI();
+  render();
+})();
+</script>
+</body>
+</html>
