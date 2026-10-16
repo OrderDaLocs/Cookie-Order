@@ -365,7 +365,7 @@
 
       <!-- Payment -->
       <div class="field">
-        <label>Payment method</label>
+        <label>Payment method <span style="font-weight:600">(required)</span></label>
         <div class="radio-group">
           <label class="radio-option" id="payCashWrap">
             <input type="radio" name="Payment Method" value="Cash" id="payCash" checked>
@@ -417,7 +417,7 @@
         <p class="note">
           ⏰ <strong>Order Cut-off:</strong> Every <strong>Friday, 7:00 PM</strong>.<br>
           📍 <strong>Pick-up:</strong> Every <strong>Tuesday</strong> (Jaro, Iloilo).<br>
-          🛵 <strong>Delivery:</strong> C/O buyer via <strong>Maxim</strong>.<br>
+          🛵 <strong>Delivery:</strong> Every <strong>Tue, Wed &amp; Sat</strong> via <strong>Maxim</strong> (C/O buyer). Afternoon 3-5 PM, Evening 6-9 PM.<br>
           💳 <strong>Payment:</strong> Cash &amp; GCash for pick-up. GCash only for Maxim delivery.
         </p>
       </div>
@@ -437,7 +437,7 @@
   <section class="info" aria-label="Ordering information">
     <div><h3>How to order</h3><p>DM us on Instagram<br><strong>@dalocs_</strong></p></div>
     <div><h3>Pick-up</h3><p>Every <strong>Tuesday</strong><small>Jaro, Iloilo</small></p></div>
-    <div><h3>Delivery</h3><p>C/O <strong>buyer</strong><small>(Maxim)</small></p></div>
+    <div><h3>Delivery</h3><p>Every <strong>Tue, Wed &amp; Sat</strong><small>C/O buyer (Maxim)</small></p></div>
     <div><h3>Order cut-off</h3><p>Every <strong>Friday</strong><small>7:00 PM</small></p></div>
   </section>
 
@@ -468,24 +468,35 @@
   var qtys = new Map();
   var peso = function (n) { return '₱' + n.toLocaleString('en-PH'); };
 
-  /* Upcoming Tuesdays in a dropdown (works with the phone's native picker) */
+  /* Date dropdown: pick-up = Tuesdays only (8 weeks ahead); delivery = Tue / Wed / Sat (4 weeks ahead) */
   var fulfillDateSelect = document.getElementById('fulfillDate');
-  function populateTuesdays() {
-    fulfillDateSelect.innerHTML = '<option value="" disabled selected>Select Tuesday</option>';
+  var fulfillTimeSelect = document.getElementById('fulfillTime');
+  function populateDates(isDelivery) {
+    var days = isDelivery ? [2, 3, 6] : [2];
+    var span = isDelivery ? 28 : 56;
+    fulfillDateSelect.innerHTML = '<option value="" disabled selected>' + (isDelivery ? 'Select date' : 'Select Tuesday') + '</option>';
     var today = new Date();
-    var count = 0;
-    for (var i = 0; i < 35; i++) {
+    for (var i = 0; i < span; i++) {
       var d = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
-      if (d.getDay() === 2) {
+      if (days.indexOf(d.getDay()) !== -1) {
         var opt = document.createElement('option');
-        var s = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
-        opt.value = s;
-        opt.textContent = s;
+        var str = d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
+        opt.value = str;
+        opt.textContent = str;
         fulfillDateSelect.appendChild(opt);
-        count++;
-        if (count >= 4) break;
       }
     }
+  }
+  function populateTimes(isDelivery) {
+    var list = isDelivery
+      ? [['Afternoon (3:00 - 5:00 PM)', 'Afternoon (3-5 PM)'], ['Evening (6:00 - 9:00 PM)', 'Evening (6-9 PM)']]
+      : [['Afternoon', 'Afternoon'], ['Evening', 'Evening']];
+    fulfillTimeSelect.innerHTML = '<option value="" disabled selected>Select time</option>';
+    list.forEach(function (t) {
+      var o = document.createElement('option');
+      o.value = t[0]; o.textContent = t[1];
+      fulfillTimeSelect.appendChild(o);
+    });
   }
 
   /* Fulfillment + payment rules */
@@ -509,15 +520,17 @@
       payCashWrap.classList.remove('hidden');
       payCash.disabled = false;
       payHint.innerHTML = '💵 Cash and GCash are both accepted for <strong>pick-up</strong>.';
+      populateDates(false); populateTimes(false);
     } else {
       lblDate.textContent = 'Delivery Date';
       lblAddress.textContent = 'Delivery Address';
       address.placeholder = 'Enter your complete delivery address';
-      hint.innerHTML = '🛵 <strong>Delivery:</strong> C/O buyer via <strong>Maxim</strong>. (Cut-off Friday 7:00 PM).';
+      hint.innerHTML = '🛵 <strong>Delivery:</strong> every <strong>Tuesday, Wednesday &amp; Saturday</strong>, C/O buyer via <strong>Maxim</strong>. Afternoon = <strong>3-5 PM</strong>, Evening = <strong>6-9 PM</strong>.';
       payGcash.checked = true;
       payCash.disabled = true;
       payCashWrap.classList.add('hidden');
       payHint.innerHTML = '📲 <strong>Delivery via Maxim</strong> is <strong>GCash only</strong>.';
+      populateDates(true); populateTimes(true);
     }
   }
   optPickup.addEventListener('change', updateFulfillmentUI);
@@ -592,7 +605,6 @@
     document.getElementById('f_total').value = peso(s.total);
   });
 
-  populateTuesdays();
   updateFulfillmentUI();
   render();
 })();
