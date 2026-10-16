@@ -171,7 +171,7 @@
   .order h2 { color: var(--blue-deep); font-size: 2rem; margin-bottom: 14px; grid-column: 1 / -1; }
   .field { margin-bottom: 16px; }
   label { display: block; font-weight: 700; margin-bottom: 4px; }
-  input[type="text"], input[type="tel"], input[type="date"], input[type="time"], select, textarea {
+  input[type="text"], input[type="tel"], input[type="date"], select, textarea {
     width: 100%;
     font: inherit; color: var(--ink);
     padding: 12px 14px;
@@ -361,22 +361,26 @@
         </div>
       </div>
 
-      <!-- Date and Preferred Time -->
+      <!-- Date and Afternoon/Evening Time Selection -->
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
         <div class="field">
-          <label for="fulfillDate" id="lblDate">Preferred Date</label>
+          <label for="fulfillDate" id="lblDate">Pick-up Date (Tuesday)</label>
           <input type="date" id="fulfillDate" name="Preferred Date" required>
         </div>
         <div class="field">
           <label for="fulfillTime">Preferred Time</label>
-          <input type="time" id="fulfillTime" name="Preferred Time" required>
+          <select id="fulfillTime" name="Preferred Time" required>
+            <option value="" disabled selected>Select time</option>
+            <option value="Afternoon">Afternoon</option>
+            <option value="Evening">Evening</option>
+          </select>
         </div>
       </div>
 
       <div class="field">
-        <label for="address" id="lblAddress">Pick-up / Delivery Details</label>
-        <textarea id="address" name="Address / Location Details" placeholder="Enter full delivery address or pick-up location preference" required></textarea>
-        <p class="hint" id="fulfillmentHint">📍 <strong>Pick-up:</strong> Available every <strong>Tuesday</strong> at Jaro, Iloilo.</p>
+        <label for="address" id="lblAddress">Address / Pick-up Details</label>
+        <textarea id="address" name="Address / Location Details" placeholder="Enter pick-up details or delivery address" required></textarea>
+        <p class="hint" id="fulfillmentHint">📍 <strong>Pick-up:</strong> Every <strong>Tuesday</strong> at Jaro, Iloilo.</p>
       </div>
     </div>
 
@@ -424,20 +428,34 @@
   var qtys = new Map();
   var peso = function (n) { return '₱' + n.toLocaleString('en-PH'); };
 
-  /* Fulfillment choice listener */
+  /* Fulfillment & Tuesday Restriction logic */
   var optPickup = document.getElementById('optPickup');
   var optDelivery = document.getElementById('optDelivery');
   var hint = document.getElementById('fulfillmentHint');
+  var fulfillDate = document.getElementById('fulfillDate');
+  var lblDate = document.getElementById('lblDate');
 
-  optPickup.addEventListener('change', function () {
+  function updateFulfillmentUI() {
     if (optPickup.checked) {
+      lblDate.textContent = 'Pick-up Date (Tuesday)';
       hint.innerHTML = '📍 <strong>Pick-up:</strong> Available every <strong>Tuesday</strong> at Jaro, Iloilo.';
-    }
-  });
-
-  optDelivery.addEventListener('change', function () {
-    if (optDelivery.checked) {
+    } else {
+      lblDate.textContent = 'Preferred Date';
       hint.innerHTML = '🛵 <strong>Delivery:</strong> C/O buyer via <strong>Maxim</strong>. (Cut-off Friday 7:00 PM).';
+    }
+  }
+
+  optPickup.addEventListener('change', updateFulfillmentUI);
+  optDelivery.addEventListener('change', updateFulfillmentUI);
+
+  /* Restrict pick-up selection to Tuesdays only */
+  fulfillDate.addEventListener('change', function () {
+    if (optPickup.checked && fulfillDate.value) {
+      var selectedDate = new Date(fulfillDate.value + 'T00:00:00');
+      if (selectedDate.getDay() !== 2) { // 2 = Tuesday
+        alert('Pick-ups are only available on Tuesdays (Jaro, Iloilo). Please select a Tuesday.');
+        fulfillDate.value = '';
+      }
     }
   });
 
@@ -510,6 +528,7 @@
     document.getElementById('f_total').value = peso(s.total);
   });
 
+  updateFulfillmentUI();
   render();
 })();
 </script>
